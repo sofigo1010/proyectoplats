@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.proyectoplatsreal.navigation.BottomTabs
 import com.example.proyectoplatsreal.navigation.MusicApp
 import com.example.proyectoplatsreal.ui.principal.MainScreen
 import com.example.proyectoplatsreal.ui.theme.ProyectoPlatsrealTheme
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    MusicApp(navController =navController)
+                    MusicApp()
                 }
             }
         }

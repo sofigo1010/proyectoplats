@@ -1,93 +1,78 @@
 package com.example.proyectoplatsreal.navigation
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.proyectoplatsreal.R
+import com.example.proyectoplatsreal.ui.ajustes.AjustesScreen
+import com.example.proyectoplatsreal.ui.escuchando.ListeningScreen
+import com.example.proyectoplatsreal.ui.escuchando.PublishSongScreen
+import com.example.proyectoplatsreal.ui.playlists.PlaylistsScreen
 import com.example.proyectoplatsreal.ui.principal.MainScreen
-import com.example.proyectoplatsreal.ui.theme.secondarybc
 import com.example.proyectoplatsreal.ui.theme.secondarydark
 
-
 enum class MainTab(val title: String, val icon: Int) {
-    AJUSTES("Agregar", R.drawable.settings),
+    AJUSTES("Ajustes", R.drawable.settings),
     PLAYLISTS("Playlists", R.drawable.playlist),
     LISTENING("Escuchando", R.drawable.headphones),
     SEARCH("Buscar", R.drawable.search)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MusicApp(navController: NavController) {
-    // Estado para recordar la pestaña/tab seleccionada.
-    // Inicialmente es "SEARCH".
-    val (selectedTab, setSelectedTab) = remember { mutableStateOf<MainTab>(MainTab.SEARCH) }
+fun MusicApp() {
+    val navController = rememberNavController()
 
-    // Recupera todos los valores de la enumeración MainTab.
-    val tabs = MainTab.values()
-
-    // Define un esqueleto para la aplicación.
     Scaffold(
         content = {
-            // Columna que ocupa todo el espacio disponible.
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                // Decide qué pantalla mostrar basándose en la pestaña/tab seleccionada.
-                when (selectedTab) {
-                    MainTab.SEARCH -> MainScreen()
-                    // Aquí puedes agregar el contenido de las otras tabs,
-                    // como MainTab.LISTENING -> ListeningScreen() y así sucesivamente.
-                    else -> Text("Contenido de la pestaña: ${selectedTab.title}")
+            NavHost(navController = navController, startDestination = Screen.SearchScreen.route) {
+                composable(Screen.SearchScreen.route) {
+                    MainScreen()
+                }
+                composable(Screen.ListeningScreen.route) {
+                    ListeningScreen(navController)
+                }
+                composable(Screen.PublishSongScreen.route) {
+                    PublishSongScreen(navController)
+                }
+                composable(Screen.PlaylistsScreen.route) {
+                    PlaylistsScreen()
+                }
+                composable(Screen.AjustesScreen.route) { // Nuevo composable
+                    AjustesScreen()
                 }
             }
         },
         bottomBar = {
-            // Define la barra inferior de la aplicación.
-            BottomAppBar(
-                containerColor = secondarydark, // Color de fondo de la barra inferior.
-                contentColor = Color.White
-            ) {
-                // Barra de navegación inferior.
-                BottomTabs(
-                    selectedTab = selectedTab,
-                    onTabSelected = { setSelectedTab(it) }
-                )
-
-            }
+            BottomTabs(navController)
         }
     )
 }
 
 @Composable
-fun BottomTabs(selectedTab: MainTab, onTabSelected: (MainTab) -> Unit) {
+fun BottomTabs(navController: NavController) {
     BottomNavigation(
-        modifier = Modifier.fillMaxWidth().background(secondarydark),
-        backgroundColor = secondarydark// Establece el fondo a `secondarydark` y llena el ancho.
+        modifier = Modifier.fillMaxWidth(),
+        backgroundColor = secondarydark
     ) {
         MainTab.values().forEach { tab ->
             BottomNavigationItem(
@@ -95,22 +80,44 @@ fun BottomTabs(selectedTab: MainTab, onTabSelected: (MainTab) -> Unit) {
                     Icon(
                         painterResource(id = tab.icon),
                         contentDescription = null,
-                        modifier = Modifier.size(24.dp) // Tamaño del ícono reducido.
+                        modifier = Modifier.size(24.dp),
+                        tint = Color.White
                     )
                 },
                 label = {
                     Text(
-                        tab.title,
-                        fontSize = 12.sp, // Tamaño de letra reducido.
-                        modifier = Modifier.padding(0.dp)
+                        text = tab.title,
+                        fontSize = 12.sp,
+                        color = Color.White
                     )
                 },
-                selected = selectedTab == tab,
-                onClick = { onTabSelected(tab) },
-                alwaysShowLabel = true
+                selected = currentRoute(navController) == when(tab) {
+                    MainTab.SEARCH -> Screen.SearchScreen.route
+                    MainTab.LISTENING -> Screen.ListeningScreen.route
+                    MainTab.PLAYLISTS -> Screen.PlaylistsScreen.route
+                    MainTab.AJUSTES -> Screen.AjustesScreen.route  // Caso añadido
+                    else -> ""
+                },
+                onClick = {
+                    when(tab) {
+                        MainTab.SEARCH -> navController.navigate(Screen.SearchScreen.route)
+                        MainTab.LISTENING -> navController.navigate(Screen.ListeningScreen.route)
+                        MainTab.PLAYLISTS -> navController.navigate(Screen.PlaylistsScreen.route)
+                        MainTab.AJUSTES -> navController.navigate(Screen.AjustesScreen.route) // Caso añadido
+                        else -> {}
+                    }
+                }
             )
         }
     }
 }
 
+
+
+
+@Composable
+fun currentRoute(navController: NavController): String? {
+    val navBackStackEntry = navController.currentBackStackEntryAsState().value
+    return navBackStackEntry?.destination?.route
+}
 
