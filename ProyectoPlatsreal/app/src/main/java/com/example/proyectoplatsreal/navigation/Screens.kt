@@ -5,5 +5,5 @@ sealed class Screen(val route: String) {
     object ListeningScreen : Screen("listeningScreen")
     object PublishSongScreen : Screen("publishSongScreen")
     object PlaylistsScreen : Screen("playlistsScreen")
-    object AjustesScreen : Screen("ajustesScreen")  // Nueva entrada
+    object AjustesScreen : Screen("ajustesScreen")
 }

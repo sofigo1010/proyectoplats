@@ -39,7 +39,7 @@ fun PublishSongScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(darkbackground) // Asegúrate de que este color esté definido en tu archivo de colores
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
@@ -56,16 +56,16 @@ fun PublishSongScreen(navController: NavController) {
                     color = Color.White
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.logo), // Reemplaza con tu recurso de logo
+                    painter = painterResource(id = R.drawable.logo),
                     contentDescription = "Logo",
-                    modifier = Modifier.size(50.dp) // Ajusta el tamaño según necesites
+                    modifier = Modifier.size(50.dp)
                 )
             }
 
             Spacer(modifier = Modifier.height(40.dp))
 
             OutlinedTextField(
-                value = "", // Enlazar a un estado
+                value = "",
                 onValueChange = { /* Actualizar estado */ },
                 label = { Text("Nombre de la canción", color = Color.White) },
                 textStyle = androidx.compose.ui.text.TextStyle(color = Color.White),
@@ -79,7 +79,7 @@ fun PublishSongScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(20.dp))
 
             OutlinedTextField(
-                value = "", // Enlazar a un estado
+                value = "",
                 onValueChange = { /* Actualizar estado */ },
                 label = { Text("Artista de la canción", color = Color.White) },
                 textStyle = androidx.compose.ui.text.TextStyle(color = Color.White),
@@ -94,12 +94,15 @@ fun PublishSongScreen(navController: NavController) {
 
             Button(
                 onClick = {
-                    // Acción para publicar
+
                 },
-                colors = ButtonDefaults.buttonColors(darkbase),
-                modifier = Modifier.align(Alignment.CenterHorizontally) // Alinea el botón al centro
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                Text("Publicar")
+                Text(
+                    text = "Publicar",
+                    color = Color.White)
+
             }
         }
     }

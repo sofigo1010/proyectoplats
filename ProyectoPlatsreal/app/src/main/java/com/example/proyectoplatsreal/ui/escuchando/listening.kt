@@ -41,13 +41,13 @@ fun ListeningScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(darkbackground)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            horizontalAlignment = Alignment.Start // Alineado al inicio por defecto
+            horizontalAlignment = Alignment.Start
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -61,9 +61,9 @@ fun ListeningScreen(navController: NavController) {
                 )
 
                 Image(
-                    painter = painterResource(id = R.drawable.logo), // Reemplaza con tu recurso de logo
+                    painter = painterResource(id = R.drawable.logo),
                     contentDescription = "Logo",
-                    modifier = Modifier.size(50.dp) // Ajusta el tamaño según necesites
+                    modifier = Modifier.size(50.dp)
                 )
             }
 
@@ -73,10 +73,13 @@ fun ListeningScreen(navController: NavController) {
                 onClick = {
                     navController.navigate(com.example.proyectoplatsreal.navigation.Screen.PublishSongScreen.route)
                 },
-                colors = ButtonDefaults.buttonColors(darkbase),
-                modifier = Modifier.align(Alignment.CenterHorizontally) // Alinea el botón al centro
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                Text("Publica qué estás escuchando ahora mismo!")
+                Text(
+                    text = "Publica qué estás escuchando ahora mismo!",
+                    color = Color.White
+                )
             }
 
 
@@ -90,7 +93,7 @@ fun ListeningScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Divider(color = secondarydark)
+            Divider(color = MaterialTheme.colorScheme.secondary)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -139,7 +142,7 @@ fun ListeningScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Add more UI components as needed
+
         }
     }
 }

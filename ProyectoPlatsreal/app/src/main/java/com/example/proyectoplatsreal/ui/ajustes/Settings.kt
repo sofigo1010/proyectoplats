@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -33,46 +34,42 @@ import com.example.proyectoplatsreal.ui.theme.darkbackground
 import com.example.proyectoplatsreal.ui.theme.secondarydark
 
 @Composable
-fun AjustesScreen() {
-    // Estado mutable para el Switch de Dark Mode
-    var isDarkMode by remember { mutableStateOf(false) }
-
+fun AjustesScreen(isDarkMode: Boolean, onDarkModeChange: (Boolean) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(darkbackground)  // Usar un color fijo por ahora
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.Top,  // Alineación desde la parte superior
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Título "Ajustes"
             Text(
                 text = "Ajustes",
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold
             )
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // Logo
+
             Image(
-                painter = painterResource(id = R.drawable.logo),  // Asegúrate de cambiar esto por tu logo real
+                painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Logo",
-                modifier = Modifier.size(150.dp)  // Ajusta el tamaño según lo necesites
+                modifier = Modifier.size(150.dp)
             )
 
             Spacer(modifier = Modifier.height(40.dp))
 
-
-            Divider(color = secondarydark)
+            Divider(color = MaterialTheme.colorScheme.secondary)
 
             Spacer(modifier = Modifier.height(16.dp))
-            // Dark Mode switch visualmente
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -80,23 +77,26 @@ fun AjustesScreen() {
             ) {
                 Text(
                     text = "Dark Mode",
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 20.sp
                 )
 
                 Switch(
-                    checked = isDarkMode,  // Usando el estado mutable
-                    onCheckedChange = { isDarkMode = it },  // Cambiando el estado al presionar
+                    checked = isDarkMode,
+                    onCheckedChange = onDarkModeChange,
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = Color.Green,
-                        uncheckedThumbColor = Color.White
+                        uncheckedThumbColor = MaterialTheme.colorScheme.onSurface
                     )
                 )
             }
+
             Spacer(modifier = Modifier.height(16.dp))
-            Divider(color = secondarydark)
+
+            Divider(color = MaterialTheme.colorScheme.secondary)
         }
     }
 }
+
 
 

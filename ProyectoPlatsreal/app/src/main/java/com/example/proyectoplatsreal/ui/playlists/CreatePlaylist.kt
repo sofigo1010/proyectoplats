@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -36,19 +37,19 @@ fun PlaylistsScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(darkbackground) // Color de fondo basado en la imagen
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            // Row que contendrá el título y el logo
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Título "Playlists"
+
                 Text(
                     text = "Playlists",
                     color = Color.White,
@@ -56,17 +57,17 @@ fun PlaylistsScreen() {
                     fontWeight = FontWeight.Bold
                 )
 
-                // Logo a la derecha
+
                 Image(
                     painter = painterResource(id = R.drawable.logo),
                     contentDescription = "Logo",
-                    modifier = Modifier.size(50.dp)  // Puedes ajustar el tamaño según lo necesites
+                    modifier = Modifier.size(50.dp)
                 )
             }
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // Cada sección de filtro: Género, Idioma, Artista
+
             listOf("Género", "Idioma", "Artista").forEach { title ->
                 FilterSection(title = title)
                 Spacer(modifier = Modifier.height(20.dp))
@@ -74,10 +75,10 @@ fun PlaylistsScreen() {
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // Botón "Generar"
+
             Button(
                 onClick = { /* Acción para generar */ },
-                colors = ButtonDefaults.buttonColors(darkbase) // Color basado en la imagen
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
                 ,
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -94,7 +95,7 @@ fun PlaylistsScreen() {
 @Composable
 fun FilterSection(title: String) {
     Column {
-        // Título: Género, Idioma, Artista
+
         Text(
             text = title,
             color = Color.White,
@@ -104,12 +105,12 @@ fun FilterSection(title: String) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // TextField
+
         OutlinedTextField(
-            value = "", // Enlazar a un estado
+            value = "",
             onValueChange = { /* Actualizar estado */ },
             placeholder = {
-                Text(text = "Ingresa el $title de la playlist", color = Color.Gray) // Placeholder más descriptivo
+                Text(text = "Ingresa el $title de la playlist", color = Color.Gray)
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.White,

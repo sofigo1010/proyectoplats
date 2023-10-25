@@ -37,7 +37,7 @@ fun MainScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(darkbackground)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
@@ -45,7 +45,7 @@ fun MainScreen() {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            // Search Bar
+
             OutlinedTextField(
                 value = remember { mutableStateOf("") }.value,
                 onValueChange = { /* TODO: handle text change */ },
@@ -63,7 +63,7 @@ fun MainScreen() {
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Images Grid
+
             LazyColumn(
                 contentPadding = PaddingValues(8.dp)
             ) {
@@ -80,7 +80,7 @@ fun MainScreen() {
                                     .weight(1f)
                                     .clickable { /* Handle click */ }
                                     .padding(4.dp)
-                                    .aspectRatio(1f), // Mantendrá una relación de aspecto de 1:1
+                                    .aspectRatio(1f),
                                 contentScale = ContentScale.Crop
                             )
                         }
